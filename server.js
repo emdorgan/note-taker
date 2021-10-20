@@ -14,7 +14,20 @@ app.use(express.static('public'));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
-// Receives post request when user hits the save button, puts the db.json into the database
+// updates database when a new note has been saved or a note has been deleted
+function updateDatabase(){
+    const stringifiedNotes = JSON.stringify(db, null, "\t");
+
+        fs.writeFile(`./db/db.json`, stringifiedNotes, (err) =>
+            err
+                ? console.error(err)
+                : console.log(
+                    `Database has been updated`
+                )
+        );
+}
+
+// Receives POST request when user hits the save button, puts the db.json into the database
 app.post('/api/notes', (req, res) =>{
     console.log(`${req.method} request recieved to save note`)
 
@@ -24,21 +37,13 @@ app.post('/api/notes', (req, res) =>{
         const newNote = {
             title,
             text,
-            note_id: uuidv4()
+            id: uuidv4()
         };
 
         // db is called as a dependency and directly pushed to
         db.push(newNote);
 
-        const stringifyNotes = JSON.stringify(db, null, "\t");
-
-        fs.writeFile(`./db/db.json`, stringifyNotes, (err) =>
-            err
-                ? console.error(err)
-                : console.log(
-                    `Note of ${newNote.title} has been written to JSON file`
-                )
-        );
+        updateDatabase();
 
         const response = {
             status: "success",
@@ -52,19 +57,32 @@ app.post('/api/notes', (req, res) =>{
     }
 });
 
-// User gets sent to landing page (index.html) (note: change to * GET command later)
+// DELETE request, iterates through the database, comparing the id to the submitted parameter;
+app.delete('/api/notes/:id', (req, res) =>{
+    // deconstructs the req object, sets id param to an ID;
+    const { id } = req.params;
+
+    // array method to find the index associated with that ID
+    const noteIndex = db.findIndex(obj => obj.id == id)
+    // splice 1 item at that index
+    db.splice(noteIndex, 1);
+    //call the update database method
+    updateDatabase();
+    res.send(`Note titled ${db[noteIndex].title} deleted!`)
+})
+
+// GET request: User gets sent to landing page (index.html) 
 app.get('/api/notes', (req, res) =>{
     res.json(db)
-    }
-);
+});
 
-// User gets sent the notes.html page upon request
+// GET request: User gets sent the notes.html page upon request
 app.get('/notes', (req, res) =>
     res.sendFile(path.join(__dirname, '/public/notes.html'))
 );
 
-// Root, user gets sent to index.html
-app.get('/', (req, res) =>
+// GET request: User gets sent to index.html with the wildcard (*) setting to act as the root and catch any sort of weird url requests
+app.get('*', (req, res) =>
     res.sendFile(path.join(__dirname, '/public/index.html'))
 );
 

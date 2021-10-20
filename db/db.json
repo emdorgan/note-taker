@@ -1,16 +1,7 @@
 [
 	{
-		"title": "Test Title",
-		"text": "Test text"
-	},
-	{
-		"title": "This ",
-		"text": "note",
-		"note_id": "cd877cc0-cc91-42f3-a6b8-dacba9667190"
-	},
-	{
-		"title": "Maya",
-		"text": "Cute",
-		"note_id": "41b5a5fc-5936-43c6-b175-84e28a8acca6"
+		"title": "the cat is",
+		"text": "cute",
+		"id": "913730af-2e01-4424-91b0-550a83a8f0b3"
 	}
 ]
