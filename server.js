@@ -5,19 +5,18 @@ const fs = require('fs');
 const db = require('./db/db.json')
 const {v4 : uuidv4} = require('uuid')
 
-const notesList = [];
-
 // Port defined and express.js initialized
 const PORT = 3001;
 const app = express();
 
-// Middleware to (respectively) read the public directory's assets (CSS and JS), encode data and allow express to read json
+// Middleware to: (respectively) read the public directory's assets (CSS and JS), encode data and allow express to read json
 app.use(express.static('public'));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
+// Receives post request when user hits the save button, puts the db.json into the database
 app.post('/api/notes', (req, res) =>{
-    console.log(`${req.method} request recieved to log note`)
+    console.log(`${req.method} request recieved to save note`)
 
     const {title, text} = req.body;
 
@@ -27,7 +26,19 @@ app.post('/api/notes', (req, res) =>{
             text,
             note_id: uuidv4()
         };
-        notesList.push(newNote);
+
+        // db is called as a dependency and directly pushed to
+        db.push(newNote);
+
+        const stringifyNotes = JSON.stringify(db, null, "\t");
+
+        fs.writeFile(`./db/db.json`, stringifyNotes, (err) =>
+            err
+                ? console.error(err)
+                : console.log(
+                    `Note of ${newNote.title} has been written to JSON file`
+                )
+        );
 
         const response = {
             status: "success",
