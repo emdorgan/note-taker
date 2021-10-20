@@ -6,7 +6,7 @@ const db = require('./db/db.json')
 const {v4 : uuidv4} = require('uuid')
 
 // Port defined and express.js initialized
-const PORT = 3001;
+const PORT = process.env.PORT || 3001;
 const app = express();
 
 // Middleware to: (respectively) read the public directory's assets (CSS and JS), encode data and allow express to read json
