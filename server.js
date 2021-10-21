@@ -65,6 +65,7 @@ app.delete('/api/notes/:id', (req, res) =>{
     // array method to find the index associated with that ID
     const noteIndex = db.findIndex(obj => obj.id == id)
 
+    // logs the title name to send as a response to the user
     let titleDeleted = db[noteIndex].title;
 
     // splice 1 item at that index
@@ -74,7 +75,7 @@ app.delete('/api/notes/:id', (req, res) =>{
     res.json(`Deleted the note titled ${titleDeleted}`);
 })
 
-// GET request: User gets sent to landing page (index.html) 
+// GET request: User gets sent the database of notes as a json.
 app.get('/api/notes', (req, res) =>{
     res.json(db)
 });

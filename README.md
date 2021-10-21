@@ -35,6 +35,10 @@ Follow the deployed link (note: if link hasn't been visited in a while it may ta
 - [Link to Github](https://github.com/emdorgan)
 - [Link to LinkedIn](https://www.linkedin.com/in/emily-dorgan/)
 
+## Acknowledgements
+
+HTML, CSS and client-side JavaScript provided by UC Berkeley.
+
 ## License
 
 This project is licensed under the [MIT License](https://opensource.org/licenses/MIT)

@@ -42,6 +42,7 @@ const saveNote = (note) =>
     body: JSON.stringify(note),
   });
 
+  // fetch request for deleting a note. Sents the ID as a parameter, recieves a response with the title of the deleted note
 const deleteNote = (id) =>
   fetch(`/api/notes/${id}`, {
     method: 'DELETE',
