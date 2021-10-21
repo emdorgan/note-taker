@@ -15,7 +15,7 @@ Follow the deployed link (note: if link hasn't been visited in a while it may ta
 
 ## Screenshots
 
-![Screenshot of notes](screenshots\notes.png)
+![Screenshot of notes](/screenshots/notes.png)
 
 ## Built With
 
